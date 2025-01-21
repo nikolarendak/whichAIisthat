@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Early Access GPT 5</title>
+  <title>Early Access Form</title>
   <style>
     /* Global Styles */
     body {
@@ -46,17 +46,37 @@
       font-size: 2rem;
       margin-bottom: 20px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
     main p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 0.5px solid #8a8a8a;
+      border-radius: 5px;
+      background-color: black; /* Black inside */
+      color: white; /* White text */
+    }
+    input:hover {
+      border-color: white; /* White border when hovered */
+    }
+
+    label {
+      color: #ffffff; /* Black text */
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Button Styling for white with black text */
     .button {
+      width: auto;      
       background-color: white;
       color: black;
       font-weight: bold;
@@ -72,7 +92,7 @@
       color: white;
     }
     .button {
-      padding: 15px 30px; /* Increases button size */
+      padding: 10px 30px; /* Increases button size */
     }
 
     /* Footer Styles */
@@ -96,16 +116,17 @@
   </header>
 
   <main>
-    <h2>GPT-5 - Early Access Now Available</h2>
-    <p>We’re thrilled to announce the release of <strong>GPT-5</strong>, our most powerful and capable model to date. Designed to deliver unmatched performance, GPT-5 brings:</p>
-      <ul>
-        <li>Enhanced reasoning and creativity to help you tackle complex tasks.</li>
-        <li>Greater customization for tailoring outputs to your unique needs.</li>
-        <li>Improved efficiency and accuracy, setting new standards for AI-powered solutions.</li>
-      </ul>
-      <p>We’re excited to roll it out to API users starting today. As part of our valued community, you have early access to experience the next evolution of AI.</p>
-    <h3 style="margin-bottom: 50px;">Meet GPT-5, Our Most Advanced Model Yet</h3>
-    <a href="form.html" class="button">Get Early Access</a>
+    <h2>Early Access Form</h2>
+    <p>Join the next wave of innovation! Submit your details to gain early access to GPT-5.</p>
+    <form>
+      <label for="firstName">First Name *</label>
+      <input type="text" id="firstName" name="firstName" required>
+      <label for="lastName">Last Name *</label>
+      <input type="text" id="lastName" name="lastName" required>
+      <label for="email">Work email *</label>
+      <input type="email" id="email" name="email" required>
+      <button type="submit" class="button">Submit</button>
+    </form>
   </main>
 
   <footer>
