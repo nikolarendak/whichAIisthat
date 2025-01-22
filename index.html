@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Early Access GPT 5</title>
+  <title>Early Access GPT-5</title>
   <style>
     /* Global Styles */
     body {
@@ -16,66 +16,121 @@
       flex-direction: column;
       min-height: 100vh;
     }
+
     a {
       text-decoration: none;
-      color: #181818;
-    }
-    a:hover {
-      color: #161616;
+      color: #ffffff;
     }
 
-    /* Header Styles */
+    a:hover {
+      text-decoration: underline;
+    }
+
     header {
       background-color: #000000;
       padding: 20px;
       text-align: center;
       border-bottom: 1px solid #1a1a1a;
     }
+
     header img {
-      max-width: 300px; /* Adjust size to your logo dimensions */
+      max-width: 300px;
       height: auto;
     }
 
-    /* Main Section Styles */
     main {
       padding: 40px 20px;
       text-align: center;
-      flex-grow: 1; /* Push content down so footer remains at the bottom */
+      flex-grow: 1;
+      max-width: 900px; /* Set a maximum width */
+      margin: 0 auto;    /* Center the text */
     }
+
     main h2 {
       font-size: 2rem;
       margin-bottom: 20px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+
     main p {
       font-size: 1.2rem;
       line-height: 1.6;
       margin-bottom: 30px;
     }
 
-    .button {
+    main ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    main .button {
       background-color: white;
       color: black;
       font-weight: bold;
       border: 1px solid black;
-      border-radius: 30px; /* Pill-shaped corners */
-      padding: 10px;
+      border-radius: 30px;
+      padding: 15px 30px;
       cursor: pointer;
       text-transform: uppercase;
     }
 
-    .button:hover {
+    main .button:hover {
       background-color: black;
       color: white;
-    }
-    .button {
-      padding: 15px 30px; /* Increases button size */
+      text-decoration: none;
     }
 
-    /* Footer Styles */
+    .stories {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .stories h3 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .stories-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .story {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: left;
+      width: 300px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .story:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+    }
+
+    .story img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .story h4 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .story p {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
     footer {
       background-color: #0d0d0d;
       text-align: center;
@@ -83,29 +138,84 @@
       border-top: 1px solid #1a1a1a;
       font-size: 0.9rem;
       color: #a1a1a1;
-      margin-top: auto; /* Pushes the footer to the bottom */
+      margin-top: auto;
     }
+
     footer a {
-      color: #ffffff; /* Changed to white */
+      color: #ffffff;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      color: #eaeaea;
+      text-align: left;
+    }
+
+    .modal-content h4 {
+      margin-top: 0;
+    }
+
+    .close {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="openailogocrop.gif" alt="Logo"> <!-- Path to your logo -->
+    <img src="openailogocrop.gif" alt="Logo">
   </header>
 
   <main>
     <h2>GPT-5 - Early Access Now Available</h2>
-    <p>We’re thrilled to announce the release of <strong>GPT-5</strong>, our most powerful and capable model to date. Designed to deliver unmatched performance, GPT-5 brings:</p>
-      <ul>
-        <li>Enhanced reasoning and creativity to help you tackle complex tasks.</li>
-        <li>Greater customization for tailoring outputs to your unique needs.</li>
-        <li>Improved efficiency and accuracy, setting new standards for AI-powered solutions.</li>
-      </ul>
-      <p>We’re excited to roll it out to API users starting today. As part of our valued community, you have early access to experience the next evolution of AI.</p>
-    <h3 style="margin-bottom: 50px;">Meet GPT-5, Our Most Advanced Model Yet</h3>
+    <p>We are proud to introduce <strong>GPT-5</strong>, the latest breakthrough in artificial intelligence that redefines the possibilities of machine learning. With cutting-edge advancements and an unparalleled ability to understand and generate human-like responses, GPT-5 sets a new standard for AI innovation.</p>
+    <ul>
+      <li>Enhanced Problem-Solving & Creativity: GPT-5 excels at tackling even the most complex challenges, offering unique and creative solutions for developers, researchers, and businesses alike. Whether brainstorming ideas, debugging code, or writing content, GPT-5 is your go-to collaborator.</li>
+      <li>Deep Customization & Personalization: Tailor outputs to meet your precise needs. From fine-tuned tone and style to industry-specific insights, GPT-5 adapts to you, ensuring results that feel bespoke and refined.</li>
+      <li>Unrivaled Speed & Accuracy: Built for efficiency, GPT-5 processes and delivers insights faster than ever while maintaining an incredible level of precision. Its real-time capabilities can revolutionize workflows and decision-making.</li>
+    </ul>
+    <h3>Meet GPT-5, Our Most Advanced Model Yet</h3>
+   <p></p>
     <a href="form.html" class="button">Get Early Access</a>
+
+    <section class="stories">
+      <h3>For Developers</h3>
+      <div class="stories-container">
+        <div class="story" data-story="1">
+          <img src="Deliberative_alignment.png" alt="Debugging Reinvented with GPT-5">
+          <h4>Debugging Reinvented with GPT-5</h4>
+          <p>Debugging massive codebases can feel like finding a needle in a haystack...</p>
+          <a href="#" class="read-more" data-story="1">Read More</a>
+        </div>
+        <div class="story" data-story="2">
+          <img src="updated_team-2.png" alt="Build Scalable APIs in Hours">
+          <h4>Build Scalable APIs in Hours, Not Weeks</h4>
+          <p>Startups need to move fast, but technical bottlenecks often slow down progress...</p>
+          <a href="#" class="read-more" data-story="2">Read More</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -115,5 +225,51 @@
       <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
     </p>
   </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" id="close">&times;</span>
+      <h4 id="modal-title"></h4>
+      <p id="modal-text"></p>
+    </div>
+  </div>
+
+  <script>
+    const stories = {
+      1: {
+        title: "Debugging Reinvented with GPT-5",
+        text: "Debugging massive codebases can feel like searching for a needle in a haystack, especially when faced with complex dependencies, countless lines of code, and a lack of insight into how changes impact the overall system. With GPT-5, developers gain a powerful assistant equipped with advanced machine learning capabilities to streamline the debugging process. It can analyze intricate relationships between code components, identify hidden errors, and provide real-time insights. From pinpointing logical inconsistencies to suggesting optimized solutions, GPT-5 accelerates the debugging workflow, saving developers hundreds of hours and enabling faster, more accurate issue resolution. Whether it’s optimizing algorithms, streamlining code logic, or enhancing system performance, GPT-5 ensures that every step of debugging is efficient and effective."
+      },
+      2: {
+        title: "Build Scalable APIs in Hours, Not Weeks",
+        text: "Startups often face the challenge of rapid development, needing to deliver scalable APIs quickly while maintaining quality and adhering to best practices. However, the process of manual documentation creation, writing efficient API code, and ensuring security and performance standards can be time-consuming. With GPT-5, this process is significantly accelerated. The model can generate comprehensive API documentation automatically, provide code snippets that follow industry best practices, and suggest performance optimizations. By reducing manual effort and improving accuracy, GPT-5 enables teams to build scalable APIs in a fraction of the time, allowing startups to focus more on growth, innovation, and delivering impactful solutions to their users."
+      }
+    };
+
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalText = document.getElementById("modal-text");
+    const closeModal = document.getElementById("close");
+
+    document.querySelectorAll(".read-more").forEach(item => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        const storyId = this.dataset.story;
+        modalTitle.textContent = stories[storyId].title;
+        modalText.textContent = stories[storyId].text;
+        modal.style.display = "flex";
+      });
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
