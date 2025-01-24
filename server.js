@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/submit-form', (req, res) => {
   const { firstName, lastName, email } = req.body;
   
-  // Log submission to console (will appear in Render logs)
+  // Log submission to console 
   console.log('Form Submission:', {
     firstName,
     lastName,
