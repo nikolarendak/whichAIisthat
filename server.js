@@ -4,7 +4,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public' , 'form.html')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Form submission endpoint
 app.post('/submit-form', (req, res) => {
