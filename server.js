@@ -30,7 +30,9 @@ app.post('/submit-form', (req, res) => {
 });
 
 // Default route
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'form.html'));
+});
 
 // Start server
 const PORT = process.env.PORT || 3000;
