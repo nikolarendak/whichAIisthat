@@ -1,0 +1,12 @@
+{
+  "name": "early-access-form",
+  "version": "1.0.0",
+  "description": "Early Access Form Submission",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

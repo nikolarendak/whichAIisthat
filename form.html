@@ -32,7 +32,7 @@
       border-bottom: 1px solid #1a1a1a;
     }
     header img {
-      max-width: 300px; /* Adjust size to your logo dimensions */
+      max-width: 300px;
       height: auto;
     }
 
@@ -40,7 +40,7 @@
     main {
       padding: 40px 20px;
       text-align: center;
-      flex-grow: 1; /* Push content down so footer remains at the bottom */
+      flex-grow: 1;
     }
     main h2 {
       font-size: 2rem;
@@ -61,27 +61,26 @@
       margin: 10px 0;
       border: 0.5px solid #8a8a8a;
       border-radius: 5px;
-      background-color: black; /* Black inside */
-      color: white; /* White text */
+      background-color: black;
+      color: white;
     }
     input:hover {
-      border-color: white; /* White border when hovered */
+      border-color: white;
     }
 
     label {
-      color: #ffffff; /* Black text */
+      color: #ffffff;
       font-weight: bold;
       margin-bottom: 5px;
     }
 
-    /* Button Styling for white with black text */
     .button {
       width: auto;      
       background-color: white;
       color: black;
       font-weight: bold;
       border: 1px solid black;
-      border-radius: 30px; /* Pill-shaped corners */
+      border-radius: 30px;
       padding: 10px;
       cursor: pointer;
       text-transform: uppercase;
@@ -92,7 +91,7 @@
       color: white;
     }
     .button {
-      padding: 10px 30px; /* Increases button size */
+      padding: 10px 30px;
     }
 
     /* Footer Styles */
@@ -103,22 +102,27 @@
       border-top: 1px solid #1a1a1a;
       font-size: 0.9rem;
       color: #a1a1a1;
-      margin-top: auto; /* Pushes the footer to the bottom */
+      margin-top: auto;
     }
     footer a {
-      color: #ffffff; /* Changed to white */
+      color: #ffffff;
+    }
+    #message {
+      color: white;
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="openailogocrop.gif" alt="Logo"> <!-- Path to your logo -->
+    <img src="openailogocrop.gif" alt="Logo">
   </header>
 
   <main>
     <h2>Early Access Form</h2>
     <p>Join the next wave of innovation! Submit your details to gain early access to GPT-5.</p>
-    <form>
+    <form id="earlyAccessForm">
       <label for="firstName">First Name *</label>
       <input type="text" id="firstName" name="firstName" required>
       <label for="lastName">Last Name *</label>
@@ -126,6 +130,7 @@
       <label for="email">Work email *</label>
       <input type="email" id="email" name="email" required>
       <button type="submit" class="button">Submit</button>
+      <div id="message"></div>
     </form>
   </main>
 
@@ -136,5 +141,36 @@
       <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
     </p>
   </footer>
+
+  <script>
+    document.getElementById('earlyAccessForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = 'Submitting...';
+
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value
+      };
+
+      fetch('/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        messageDiv.textContent = 'Form submitted successfully!';
+        event.target.reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        messageDiv.textContent = 'Submission failed. Please try again.';
+      });
+    });
+  </script>
 </body>
 </html>
