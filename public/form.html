@@ -147,13 +147,13 @@
       event.preventDefault();
       const messageDiv = document.getElementById('message');
       messageDiv.textContent = 'Submitting...';
-
+  
       const formData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value
       };
-
+  
       fetch('/submit-form', {
         method: 'POST',
         headers: {
@@ -161,14 +161,19 @@
         },
         body: JSON.stringify(formData)
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         messageDiv.textContent = 'Form submitted successfully!';
         event.target.reset();
       })
       .catch(error => {
         console.error('Error:', error);
-        messageDiv.textContent = 'Submission failed. Please try again.';
+        messageDiv.textContent = `Submission failed: ${error.message}`;
       });
     });
   </script>
