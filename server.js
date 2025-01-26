@@ -23,7 +23,8 @@ app.post('/submit-form', (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  res.json({ 
+  // Explicitly send JSON response
+  res.status(200).json({ 
     status: 'success', 
     message: 'Form submitted successfully' 
   });
