@@ -155,36 +155,28 @@
       };
 
       fetch('https://gpt5hub.onrender.com/submit-form', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-      })
-      .then(response => {
-          console.log('Raw response:', response);
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const contentType = response.headers.get('Content-Type');
-          if (contentType && contentType.includes('application/json')) {
-              return response.json(); 
-          } else if (response.status === 200) {
-              return {}; 
-          } else {
-              throw new Error('Unexpected response format');
-          }
-      })
-      .then(data => {
-          console.log('Response data:', data);
-          messageDiv.textContent = 'Form submitted successfully!';
-          document.getElementById('earlyAccessForm').reset();
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          messageDiv.textContent = `Submission failed: ${error.message}`;
-      });
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        messageDiv.textContent = data.message || 'Form submitted successfully!';
+        document.getElementById('earlyAccessForm').reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        messageDiv.textContent = error.error || 'An error occurred. Please try again.';
+    });
   });
   </script>
 </body>
