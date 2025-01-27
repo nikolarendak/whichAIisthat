@@ -6,39 +6,44 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Add a test endpoint
+app.get('/test', (req, res) => {
+    console.log('Test endpoint hit');
+    res.json({ message: 'Server is working!' });
+});
+
 app.post('/submit-form', (req, res) => {
-    // Log incoming request
-    console.log('Request received:', {
-        headers: req.headers,
-        body: req.body
-    });
+    // Log every request
+    console.log('Form submission received at:', new Date().toISOString());
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
 
     try {
         const { firstName, lastName, email } = req.body;
         
-        // Log parsed data
-        console.log('Parsed data:', { firstName, lastName, email });
-
         if (!firstName || !lastName || !email) {
-            console.log('Validation failed');
-            return res.status(400).json({ error: 'Missing required fields' });
+            console.log('Validation failed:', { firstName, lastName, email });
+            return res.json({ error: 'Missing required fields' });
         }
 
-        // Log success
-        console.log('Sending success response');
-        return res.status(200).json({
+        // Log successful submission
+        console.log('Successful submission:', { firstName, lastName, email });
+        
+        return res.json({
             status: 'success',
             message: 'Form submitted successfully!',
             data: { firstName, lastName, email }
         });
     } catch (error) {
-        // Log error
         console.error('Server error:', error);
-        return res.status(500).json({ error: 'Server error' });
+        return res.json({ error: error.message });
     }
 });
 
 const port = process.env.PORT || 10000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+    console.log('Available endpoints:');
+    console.log('- GET /test');
+    console.log('- POST /submit-form');
 });

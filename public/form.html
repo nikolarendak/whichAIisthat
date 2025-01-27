@@ -143,7 +143,12 @@
   </footer>
 
   <script>
-  document.getElementById('earlyAccessForm').addEventListener('submit', function(event) {
+  fetch('https://gpt5hub.onrender.com/test')
+    .then(response => response.json())
+    .then(data => console.log('Server test response:', data))
+    .catch(error => console.error('Server test failed:', error));
+
+document.getElementById('earlyAccessForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const messageDiv = document.getElementById('message');
     messageDiv.textContent = 'Submitting...';
@@ -154,8 +159,7 @@
         email: document.getElementById('email').value,
     };
 
-    // Log what we're sending
-    console.log('Sending data:', formData);
+    console.log('Attempting to submit:', formData);
 
     fetch('https://gpt5hub.onrender.com/submit-form', {
         method: 'POST',
@@ -166,31 +170,23 @@
         body: JSON.stringify(formData),
     })
     .then(async response => {
-        // Log raw response
-        console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
-        
         const text = await response.text();
-        console.log('Raw response text:', text);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        console.log('Raw server response:', text);
         
         try {
             return text ? JSON.parse(text) : {};
         } catch (e) {
             console.error('JSON parse error:', e);
-            throw new Error('Invalid JSON response');
+            throw new Error(`Server response error: ${text}`);
         }
     })
     .then(data => {
-        console.log('Success:', data);
-        messageDiv.textContent = 'Form submitted successfully!';
+        console.log('Processed response:', data);
+        messageDiv.textContent = data.message || 'Form submitted successfully!';
         document.getElementById('earlyAccessForm').reset();
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Submission error:', error);
         messageDiv.textContent = `Submission failed: ${error.message}`;
     });
 });
