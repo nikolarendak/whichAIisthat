@@ -154,29 +154,37 @@
           email: document.getElementById('email').value,
       };
 
-      fetch('/submit-form', {
+      fetch('https://gpt5hub.onrender.com/submit-form', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
       })
-          .then(response => {
-              console.log('Response:', response); // Log the raw response for debugging
-              if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              return response.json(); // Attempt to parse JSON
-          })
-          .then(data => {
-              console.log('Response Data:', data); // Log the parsed data
-              messageDiv.textContent = 'Form submitted successfully!';
-              event.target.reset();
-          })
-          .catch(error => {
-              console.error('Error:', error); // Log any error
-              messageDiv.textContent = `Submission failed: ${error.message}`;
-          });
+      .then(response => {
+          console.log('Raw response:', response);
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const contentType = response.headers.get('Content-Type');
+          if (contentType && contentType.includes('application/json')) {
+              return response.json(); 
+          } else if (response.status === 200) {
+              return {}; 
+          } else {
+              throw new Error('Unexpected response format');
+          }
+      })
+      .then(data => {
+          console.log('Response data:', data);
+          messageDiv.textContent = 'Form submitted successfully!';
+          document.getElementById('earlyAccessForm').reset();
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          messageDiv.textContent = `Submission failed: ${error.message}`;
+      });
   });
   </script>
 </body>
