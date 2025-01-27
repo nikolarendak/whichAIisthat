@@ -1,49 +1,43 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
+document.getElementById('earlyAccessForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const messageDiv = document.getElementById('message');
+  messageDiv.textContent = 'Submitting...';
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  const formData = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      email: document.getElementById('email').value
+  };
 
-// Add a test endpoint
-app.get('/test', (req, res) => {
-    console.log('Test endpoint hit');
-    res.json({ message: 'Server is working!' });
-});
+  try {
+      const response = await fetch('https://gpt5hub.onrender.com/submit-form', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+      });
 
-app.post('/submit-form', (req, res) => {
-    // Log every request
-    console.log('Form submission received at:', new Date().toISOString());
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-    try {
-        const { firstName, lastName, email } = req.body;
-        
-        if (!firstName || !lastName || !email) {
-            console.log('Validation failed:', { firstName, lastName, email });
-            return res.json({ error: 'Missing required fields' });
-        }
+      // Log the response headers and status
+      console.log('Response Status:', response.status);
+      console.log('Response Headers:', Object.fromEntries(response.headers));
+      
+      // Get the raw text response first
+      const responseText = await response.text();
+      console.log('Raw Response:', responseText);
 
-        // Log successful submission
-        console.log('Successful submission:', { firstName, lastName, email });
-        
-        return res.json({
-            status: 'success',
-            message: 'Form submitted successfully!',
-            data: { firstName, lastName, email }
-        });
-    } catch (error) {
-        console.error('Server error:', error);
-        return res.json({ error: error.message });
-    }
-});
+      // Try to parse it as JSON if it's not empty
+      const data = responseText ? JSON.parse(responseText) : {};
+      console.log('Parsed Data:', data);
 
-const port = process.env.PORT || 10000;
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-    console.log('Available endpoints:');
-    console.log('- GET /test');
-    console.log('- POST /submit-form');
+      messageDiv.textContent = data.message || 'Form submitted successfully!';
+      document.getElementById('earlyAccessForm').reset();
+  } catch (error) {
+      console.error('Error details:', error);
+      messageDiv.textContent = `Submission failed: ${error.message}`;
+  }
 });
