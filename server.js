@@ -22,7 +22,7 @@ app.get('/test', (req, res) => {
 });
 
 // Form submission endpoint
-app.post('/submit-form', (req, res) => {
+app.post('/form.html', (req, res) => {
     console.log('Form submission received');
     console.log('Request body:', req.body);
     
