@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 // Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the current directory
+app.use(express.static(__dirname));
 
 // Add request logging middleware
 app.use((req, res, next) => {
@@ -21,6 +25,11 @@ app.get('/test', (req, res) => {
     res.json({ message: 'Server is working!' });
 });
 
+// Serve the HTML file for the root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'form.html'));
+});
+
 // Form submission endpoint
 app.post('/submit-form', (req, res) => {
     console.log('Form submission received');
@@ -29,7 +38,6 @@ app.post('/submit-form', (req, res) => {
     try {
         const { firstName, lastName, email } = req.body;
         
-        // Validate required fields
         if (!firstName || !lastName || !email) {
             console.log('Validation failed:', { firstName, lastName, email });
             return res.status(400).json({ 
