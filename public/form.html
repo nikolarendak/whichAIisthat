@@ -144,17 +144,20 @@
 
   <script>
   document.getElementById('earlyAccessForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const messageDiv = document.getElementById('message');
-      messageDiv.textContent = 'Submitting...';
+    event.preventDefault();
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = 'Submitting...';
 
-      const formData = {
-          firstName: document.getElementById('firstName').value,
-          lastName: document.getElementById('lastName').value,
-          email: document.getElementById('email').value,
-      };
+    const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+    };
 
-      fetch('https://gpt5hub.onrender.com/submit-form', {
+    // Log what we're sending
+    console.log('Sending data:', formData);
+
+    fetch('https://gpt5hub.onrender.com/submit-form', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -162,22 +165,35 @@
         },
         body: JSON.stringify(formData),
     })
-    .then(response => {
+    .then(async response => {
+        // Log raw response
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        const text = await response.text();
+        console.log('Raw response text:', text);
+        
         if (!response.ok) {
-            return response.json().then(err => Promise.reject(err));
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
+        
+        try {
+            return text ? JSON.parse(text) : {};
+        } catch (e) {
+            console.error('JSON parse error:', e);
+            throw new Error('Invalid JSON response');
+        }
     })
     .then(data => {
         console.log('Success:', data);
-        messageDiv.textContent = data.message || 'Form submitted successfully!';
+        messageDiv.textContent = 'Form submitted successfully!';
         document.getElementById('earlyAccessForm').reset();
     })
     .catch(error => {
         console.error('Error:', error);
-        messageDiv.textContent = error.error || 'An error occurred. Please try again.';
+        messageDiv.textContent = `Submission failed: ${error.message}`;
     });
-  });
+});
   </script>
 </body>
 </html>
