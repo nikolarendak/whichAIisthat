@@ -1,50 +1,42 @@
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
 const app = express();
 
-// Middleware
-app.use(cors());
+// Middleware to parse incoming JSON data
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Form submission endpoint
-app.post('/submit-form', (req, res) => {
-  console.log('Request body:', req.body); // Debug log
-  
-  const { firstName, lastName, email } = req.body;
-
-  // Check for missing fields
-  if (!firstName || !lastName || !email) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  console.log('Form Submission:', {
-    firstName,
-    lastName,
-    email,
-    timestamp: new Date().toISOString(),
-  });
-
-  res.status(200).json({ 
-    status: 'success', 
-    message: 'Form submitted successfully',
-    data: { firstName, lastName, email }
-  });
-});
-
-// Serve the form HTML
+// Health check endpoint (optional)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'form.html'));
+    res.send('Server is running. Welcome to GPT-5 Hub!');
 });
 
-// Handle invalid routes
+// POST endpoint to handle form submission
+app.post('/submit-form', (req, res) => {
+    const { firstName, lastName, email } = req.body;
+
+    // Basic validation
+    if (!firstName || !lastName || !email) {
+        console.error('Validation Error: Missing required fields');
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Log the received data
+    console.log('Form submitted:', { firstName, lastName, email });
+
+    // Respond with success
+    res.status(200).json({
+        status: 'success',
+        message: 'Form submitted successfully!',
+        data: { firstName, lastName, email },
+    });
+});
+
+// Fallback for undefined routes (optional)
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+    res.status(404).send('404: Not Found');
 });
 
-// Start the server
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Bind to the correct port
+const port = process.env.PORT || 10000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
