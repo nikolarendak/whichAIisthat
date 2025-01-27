@@ -11,23 +11,23 @@ app.get('/', (req, res) => {
 
 // POST endpoint to handle form submission
 app.post('/submit-form', (req, res) => {
-    const { firstName, lastName, email } = req.body;
+  const { firstName, lastName, email } = req.body;
 
-    // Basic validation
-    if (!firstName || !lastName || !email) {
-        console.error('Validation Error: Missing required fields');
-        return res.status(400).json({ error: 'Missing required fields' });
-    }
+  // Validation
+  if (!firstName || !lastName || !email) {
+      console.error('Validation Error: Missing required fields');
+      return res.status(400).json({ error: 'Missing required fields' }); // Always return JSON
+  }
 
-    // Log the received data
-    console.log('Form submitted:', { firstName, lastName, email });
+  // Log the form data
+  console.log('Form submitted:', { firstName, lastName, email });
 
-    // Respond with success
-    res.status(200).json({
-        status: 'success',
-        message: 'Form submitted successfully!',
-        data: { firstName, lastName, email },
-    });
+  // Respond with success
+  res.status(200).json({
+      status: 'success',
+      message: 'Form submitted successfully!',
+      data: { firstName, lastName, email },
+  });
 });
 
 // Fallback for undefined routes (optional)
