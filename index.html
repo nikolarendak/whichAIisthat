@@ -222,7 +222,7 @@
     <p>© 2025 OpenAI. All rights reserved.</p>
     <p>548 Market Street, PMB 97273, San Francisco, CA 94104-5401</p>
     <p>
-      <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+      <a href="#" id="privacyLink">Privacy Policy</a> | <a href="#" id="termsLink">Terms of Use</a>
     </p>
   </footer>
 
@@ -233,6 +233,34 @@
       <p id="modal-text"></p>
     </div>
   </div>
+  
+  <!-- Privacy Policy Modal -->
+<div class="modal" id="privacyModal">
+  <div class="modal-content">
+    <span class="close" id="closePrivacy">&times;</span>
+    <h2>Privacy Policy</h2>
+    <p>Updated: November 4, 2024</p>
+    <p>We at OpenAI OpCo, LLC (together with our affiliates, “OpenAI”, “we”, “our” or “us”) respect your privacy and are strongly committed to keeping secure any information we obtain from you or about you. This Privacy Policy describes our practices with respect to Personal Data that we collect from or about you when you use our website, applications, and services (collectively, “Services”).</p>
+    <p>This Privacy Policy does not apply to content that we process on behalf of customers of our business offerings, such as our API. Our use of that data is governed by our customer agreements covering access to and use of those offerings.</p>
+  </div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div class="modal" id="termsModal">
+  <div class="modal-content">
+    <span class="close" id="closeTerms">&times;</span>
+    <h2>Terms of Use</h2>
+    <p>Effective: December 11, 2024</p>
+    <p>Thank you for using OpenAI!</p>
+    <p>These Terms of Use (“Terms”) apply to your use of ChatGPT, DALL·E, and OpenAI’s other services for individuals, along with any associated software applications, technology and websites (“Services”), including personal, non-commercial use of our Services by consumers. You form a contract with us when you confirm that you accept these Terms or when you otherwise use the Services. 
+
+      Our Business Terms⁠ govern use of ChatGPT Enterprise, our APIs, and our other services for businesses and developers. 
+      
+      Our Privacy Policy⁠ explains how we collect and use personal information. Although it does not form part of these Terms, it is an important document that you should read.
+      
+      </p>
+  </div>
+</div>
 
   <script>
     const stories = {
@@ -270,6 +298,46 @@
         modal.style.display = "none";
       }
     });
+
+    // Privacy Policy and Terms of Service Modal Functionality
+const privacyModal = document.getElementById("privacyModal");
+const termsModal = document.getElementById("termsModal");
+const privacyLink = document.getElementById("privacyLink");
+const termsLink = document.getElementById("termsLink");
+const closePrivacy = document.getElementById("closePrivacy");
+const closeTerms = document.getElementById("closeTerms");
+
+privacyLink.addEventListener("click", function(e) {
+  e.preventDefault();
+  privacyModal.style.display = "flex";
+});
+
+termsLink.addEventListener("click", function(e) {
+  e.preventDefault();
+  termsModal.style.display = "flex";
+});
+
+closePrivacy.addEventListener("click", () => {
+  privacyModal.style.display = "none";
+});
+
+closeTerms.addEventListener("click", () => {
+  termsModal.style.display = "none";
+});
+
+// Add to your existing window click event listener
+window.addEventListener("click", function(e) {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+  if (e.target === privacyModal) {
+    privacyModal.style.display = "none";
+  }
+  if (e.target === termsModal) {
+    termsModal.style.display = "none";
+  }
+});
+
   </script>
 </body>
 </html>
