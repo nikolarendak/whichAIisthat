@@ -269,6 +269,29 @@
             messageDiv.textContent = 'Submission failed. Please try again later.';
         }
     });
+    
+    async function downloadPDF() {
+        try {
+            const pdfUrl = 'https://github.com/nikolarendak/whichAIisthat/blob/main/gpt-5.pdf';
+            
+            const response = await fetch(pdfUrl);
+            const blob = await response.blob();
+          
+            const downloadLink = document.createElement('a');
+            downloadLink.href = window.URL.createObjectURL(blob);
+            downloadLink.download = 'gpt-5.pdf';
+            
+            // Append to document, click, and remove
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+        } catch (error) {
+            console.error('Error downloading PDF:', error);
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent += ' (Error downloading PDF)';
+        }
+    }
 
         // Privacy Policy and Terms of Service Modal Functionality
     const privacyModal = document.getElementById("privacyModal");
