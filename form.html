@@ -228,70 +228,79 @@
     });
     
     document.getElementById('earlyAccessForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const messageDiv = document.getElementById('message');
-        messageDiv.textContent = 'Submitting...';
-    
-        const formData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value
-        };
-    
-        try {
-            console.log('Sending data:', formData);
-            
-            const response = await fetch('https://whichaiisthat.onrender.com/submit-form', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-    
-            console.log('Response status:', response.status);
-            
-            const text = await response.text();
-            console.log('Raw response:', text);
-    
-            if (!response.ok) {
-                throw new Error(`Server returned ${response.status}: ${text}`);
-            }
-    
-            const data = text ? JSON.parse(text) : {};
-            console.log('Processed data:', data);
-    
-            messageDiv.textContent = data.message || 'Form submitted successfully!';
-            document.getElementById('earlyAccessForm').reset();
-    
-        } catch (error) {
-            console.error('Error details:', error);
-            messageDiv.textContent = 'Submission failed. Please try again later.';
+    event.preventDefault();
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = 'Submitting...';
+
+    const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value
+    };
+
+    try {
+        console.log('Sending data:', formData);
+        
+        const response = await fetch('https://whichaiisthat.onrender.com/submit-form', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        console.log('Response status:', response.status);
+        
+        const text = await response.text();
+        console.log('Raw response:', text);
+
+        if (!response.ok) {
+            throw new Error(`Server returned ${response.status}: ${text}`);
         }
-    });
-    
-    async function downloadPDF() {
-        try {
-            const pdfUrl = 'https://github.com/nikolarendak/whichAIisthat/blob/main/gpt-5.pdf';
-            
-            const response = await fetch(pdfUrl);
-            const blob = await response.blob();
-          
-            const downloadLink = document.createElement('a');
-            downloadLink.href = window.URL.createObjectURL(blob);
-            downloadLink.download = 'gpt-5.pdf';
-            
-            // Append to document, click, and remove
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            
-        } catch (error) {
-            console.error('Error downloading PDF:', error);
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent += ' (Error downloading PDF)';
-        }
+
+        const data = text ? JSON.parse(text) : {};
+        console.log('Processed data:', data);
+
+        messageDiv.textContent = data.message || 'Form submitted successfully!';
+        
+        // Call the download function after successful submission
+        await downloadPDF();
+        
+        document.getElementById('earlyAccessForm').reset();
+
+    } catch (error) {
+        console.error('Error details:', error);
+        messageDiv.textContent = 'Submission failed. Please try again later.';
     }
+});
+
+async function downloadPDF() {
+    try {
+        // Use the raw GitHub URL instead of the repository viewer URL
+        const pdfUrl = 'https://raw.githubusercontent.com/nikolarendak/whichAIisthat/main/gpt-5.pdf';
+        
+        const response = await fetch(pdfUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(blob);
+        downloadLink.download = 'gpt-5.pdf';
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+    } catch (error) {
+        console.error('Error downloading PDF:', error);
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent += ' (Error downloading PDF)';
+    }
+}
 
         // Privacy Policy and Terms of Service Modal Functionality
     const privacyModal = document.getElementById("privacyModal");
