@@ -261,13 +261,10 @@
         const data = text ? JSON.parse(text) : {};
         console.log('Processed data:', data);
 
-        messageDiv.textContent = data.message || 'Form submitted successfully!';
+        // Set cookie and redirect
+        document.cookie = "hasAccess=true; path=/; max-age=3600";
+        window.location.href = 'download.html';
         
-        // Call the download function after successful submission
-        await downloadPDF();
-        
-        document.getElementById('earlyAccessForm').reset();
-
     } catch (error) {
         console.error('Error details:', error);
         messageDiv.textContent = 'Submission failed. Please try again later.';
