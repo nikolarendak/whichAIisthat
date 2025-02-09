@@ -94,7 +94,7 @@
         function checkAccess() {
             const hasAccess = document.cookie.split(';').some((item) => item.trim().startsWith('hasAccess='));
             if (!hasAccess) {
-                window.location.href = '/index.html';
+                window.location.href = '/form.html';
             }
         }
 
