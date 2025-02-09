@@ -214,146 +214,90 @@
   </div>
 </div>
 
-  <script>
-    // Test server connection on page load
-    window.addEventListener('load', async function() {
-        try {
-            const testResponse = await fetch('/test');
-            console.log('Test endpoint status:', testResponse.status);
-            const testText = await testResponse.text();
-            console.log('Test endpoint response:', testText);
-        } catch (error) {
-            console.error('Server test failed:', error);
-        }
-    });
-    
-    document.getElementById('earlyAccessForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const messageDiv = document.getElementById('message');
-    messageDiv.textContent = 'Submitting...';
+<script>
+  // Test server connection on page load
+  window.addEventListener('load', async function() {
+      try {
+          const testResponse = await fetch('/test');
+          console.log('Test endpoint status:', testResponse.status);
+          const testText = await testResponse.text();
+          console.log('Test endpoint response:', testText);
+      } catch (error) {
+          console.error('Server test failed:', error);
+      }
+  });
+  
+  document.getElementById('earlyAccessForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = 'Submitting...';
 
-    const formData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value
-    };
+      const formData = {
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          email: document.getElementById('email').value
+      };
 
-    try {
-        const response = await fetch('https://whichaiisthat.onrender.com/submit-form', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+      try {
+          console.log('Sending form data:', formData);
+          const response = await fetch('https://whichaiisthat.onrender.com/submit-form', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+          });
 
-        if (!response.ok) {
-            throw new Error(`Server error ${response.status}`);
-        }
+          if (!response.ok) {
+              throw new Error(`Server error ${response.status}`);
+          }
 
-        // Create cookie with user data
-        const userData = btoa(JSON.stringify(formData)); // Base64 encode user data
-        document.cookie = `hasAccess=${userData}; path=/; max-age=3600`;
-        console.log('Form submitted:', formData);
-        
-        window.location.href = 'download.html';
-        
-    } catch (error) {
-        console.error('Submission error:', error);
-        messageDiv.textContent = 'Submission failed. Please try again later.';
-    }
-});
+          // Store user data in cookie
+          const userData = btoa(JSON.stringify(formData));
+          document.cookie = `userData=${userData}; path=/; max-age=3600`;
+          
+          window.location.href = 'download.html';
+          
+      } catch (error) {
+          console.error('Submission error:', error);
+          messageDiv.textContent = 'Submission failed. Please try again later.';
+      }
+  });
 
-// Download page - User tracking
-async function downloadPDF() {
-    try {
-        // Get user data from cookie
-        const userCookie = document.cookie
-            .split(';')
-            .find(row => row.trim().startsWith('hasAccess='));
-        
-        if (userCookie) {
-            const userData = JSON.parse(atob(userCookie.split('=')[1]));
-            console.log('Download by user:', userData);
-        }
+  // Privacy Policy and Terms of Service Modal Functionality
+  const privacyModal = document.getElementById("privacyModal");
+  const termsModal = document.getElementById("termsModal");
+  const privacyLink = document.getElementById("privacyLink");
+  const termsLink = document.getElementById("termsLink");
+  const closePrivacy = document.getElementById("closePrivacy");
+  const closeTerms = document.getElementById("closeTerms");
 
-        const pdfUrl = 'https://raw.githubusercontent.com/nikolarendak/whichAIisthat/main/gpt-5.pdf';
-        const response = await fetch(pdfUrl);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const blob = await response.blob();
-        const downloadLink = document.createElement('a');
-        downloadLink.href = window.URL.createObjectURL(blob);
-        downloadLink.download = 'gpt-5.pdf';
-        
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-        
-    } catch (error) {
-        console.error('Download error:', error);
-        alert('Error downloading PDF. Please try again.');
-    }
-}
-
-// Check access with user data
-function checkAccess() {
-    const userCookie = document.cookie
-        .split(';')
-        .find(row => row.trim().startsWith('hasAccess='));
-        
-    if (!userCookie) {
-        window.location.href = '/form.html';
-        return;
-    }
-
-    try {
-        const userData = JSON.parse(atob(userCookie.split('=')[1]));
-        console.log('Authorized user:', userData);
-    } catch (error) {
-        console.error('Cookie parsing error:', error);
-        window.location.href = '/form.html';
-    }
-}
-
-        // Privacy Policy and Terms of Service Modal Functionality
-    const privacyModal = document.getElementById("privacyModal");
-    const termsModal = document.getElementById("termsModal");
-    const privacyLink = document.getElementById("privacyLink");
-    const termsLink = document.getElementById("termsLink");
-    const closePrivacy = document.getElementById("closePrivacy");
-    const closeTerms = document.getElementById("closeTerms");
-
-    privacyLink.addEventListener("click", function(e) {
+  privacyLink.addEventListener("click", function(e) {
       e.preventDefault();
       privacyModal.style.display = "flex";
-    });
+  });
 
-    termsLink.addEventListener("click", function(e) {
+  termsLink.addEventListener("click", function(e) {
       e.preventDefault();
       termsModal.style.display = "flex";
-    });
+  });
 
-    closePrivacy.addEventListener("click", () => {
+  closePrivacy.addEventListener("click", () => {
       privacyModal.style.display = "none";
-    });
+  });
 
-    closeTerms.addEventListener("click", () => {
+  closeTerms.addEventListener("click", () => {
       termsModal.style.display = "none";
-    });
+  });
 
-    window.addEventListener("click", function(e) {
+  window.addEventListener("click", function(e) {
       if (e.target === privacyModal) {
-        privacyModal.style.display = "none";
+          privacyModal.style.display = "none";
       }
       if (e.target === termsModal) {
-        termsModal.style.display = "none";
+          termsModal.style.display = "none";
       }
-    });
-    </script>
-      </script>
+  });
+</script>
     </body>
     </html>

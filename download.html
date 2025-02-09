@@ -98,30 +98,51 @@
             }
         }
 
-        // Download PDF function
         async function downloadPDF() {
-            try {
-                const pdfUrl = 'https://raw.githubusercontent.com/nikolarendak/whichAIisthat/main/gpt-5.pdf';
-                const response = await fetch(pdfUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const blob = await response.blob();
-                const downloadLink = document.createElement('a');
-                downloadLink.href = window.URL.createObjectURL(blob);
-                downloadLink.download = 'gpt-5.pdf';
-                
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-                
-            } catch (error) {
-                console.error('Error downloading PDF:', error);
-                alert('Error downloading PDF. Please try again.');
-            }
+    try {
+        // Log user data from cookie when downloading
+        const userCookie = document.cookie
+            .split(';')
+            .find(row => row.trim().startsWith('userData='));
+            
+        if (userCookie) {
+            const userData = JSON.parse(atob(userCookie.split('=')[1]));
+            
+            // Send download log to server
+            await fetch('https://whichaiisthat.onrender.com/log-download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'download',
+                    userData: userData,
+                    timestamp: new Date().toISOString()
+                })
+            });
         }
+
+        const pdfUrl = 'https://raw.githubusercontent.com/nikolarendak/whichAIisthat/main/gpt-5.pdf';
+        const response = await fetch(pdfUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(blob);
+        downloadLink.download = 'gpt-5.pdf';
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Error downloading PDF. Please try again.');
+    }
+}
 
         // Check access when page loads
         window.addEventListener('load', checkAccess);
