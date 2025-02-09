@@ -94,8 +94,6 @@
         function checkAccess() {
             const hasAccess = document.cookie.split(';').some((item) => item.trim().startsWith('hasAccess='));
             if (!document.cookie.includes('hasAccess')) {
-    alert('Please complete the form first.');
-    window.location.href = '/';
 }
         }
 
