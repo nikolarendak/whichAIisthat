@@ -5,7 +5,7 @@ const app = express();
 
 // Define CORS options
 const corsOptions = {
-    origin: ['https://gpt5hub.onrender.com', 'https://whichaiisthat.onrender.com'],
+    origin: ['https://openai.codeonion.net', 'https://whichaiisthat.onrender.com'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
